@@ -263,7 +263,7 @@ function App() {
               }}
               onClick={getWalletBalance}
             >
-              Get Balance
+              Get Balance (Note - wait 1 min for Solana Official Rate Time Delay)
             </button>
           </>
         ) : (
