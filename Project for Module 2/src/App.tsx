@@ -87,8 +87,12 @@ function App() {
     else setProvider(undefined);
   }, []);
 
+  function timeout(delay: number) {
+    return new Promise( res => setTimeout(res, delay) );
+}
   const getWalletBalance = async () => {
     try {
+      
       if (newCreatedWalletKey) {
         const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
         // console.log("connecion object is ",connection);
@@ -145,6 +149,13 @@ function App() {
         lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
         signature: airDropSignature,
       });
+      await timeout(30000); //for 30sec delay as due to solana rate limit 
+      console.log("Again Airdropping some SOL to my wallet!");
+        const fromAirDropSignature = await connection.requestAirdrop(
+            new PublicKey(newAccount.publicKey),
+            2 * LAMPORTS_PER_SOL
+        );
+        await connection.confirmTransaction(fromAirDropSignature);
 
       console.log(
         "Airdrop completed for the " +
@@ -231,6 +242,9 @@ function App() {
       console.log(err);
     }
   };
+
+
+
 
   // HTML code for the app
   return (
